@@ -1,0 +1,200 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@title</title>
+    <link rel='shortcut icon' type='image/png' href='@routes.Assets.at("images/favicon.png")'>
+    <link rel='stylesheet' href='@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.css"))'>
+
+  <link rel='stylesheet' type='text/css'
+    href='@routes.Assets.at("stylesheets/main.css")'>
+
+    <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))'></script>
+	<script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("underscore-min.js"))'></script>
+    <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("backbone.min.js"))'></script>
+
+  <script src='@routes.Assets.at("javascripts/backbone.layoutmanager.js")'
+    type='text/javascript'></script>
+
+  <script src='@routes.Assets.at("javascripts/backbone-mongodb.js")'
+    type='text/javascript'></script>
+
+  <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.js"))'></script>
+
+  <script src='@routes.Assets.at("javascripts/main.js")'
+    type='text/javascript'></script>
+
+
+
+  <!-- Invoice pane template. -->
+  <script class="template" type="template" id="training-item">
+      <div class="panel-heading">
+        User id: <%= training.get('user_id') %>
+      </div>
+      <div class="panel-body">
+        Type: <%= training.get('type') %><br>
+        Average alpha level: <%= training.get('average_alpha_level') %><br>
+        Min alpha level: <%= training.get('min_alpha_level') %><br>
+        Max alpha level: <%= training.get('max_alpha_level') %><br>
+        Alpha peak fq: <%= training.get('alpha_peak_fq') %><br>
+        Start: <%= new Date(training.get('time_stamp_start')*1000) %><br>
+        End: <%= new Date(training.get('time_stamp_end')*1000) %><br>
+        Length (in minutes): <%= training.get('length')/60 %><br>
+        Feedback (UI) type: <%= training.get('feedback_ui_type') %><br>
+        Headset type: <%= training.get('headset_type') %><br>
+        </div>
+
+        <!-- NIECETOHAVE: show table on condition alphaLevels len > 0 -->
+        <!-- Table -->
+        <!-- <table class="table"> -->
+        <!--     <thead> -->
+        <!--     <tr> -->
+        <!--       <th>Time stamp</th> -->
+        <!--       <th>Alpha level</th> -->
+        <!--       <th>Alpha level normalized</th> -->
+        <!--     </tr> -->
+        <!--     </thead> -->
+        <!--     <tbody> -->
+        <!--     <% alphaLevels.each(function(level) { %> -->
+        <!--     <tr> -->
+        <!--       <td><%= new Date(level.time_stamp*1000) %></td> -->
+        <!--       <td><%= level.alpha_level %></td> -->
+        <!--       <td><%= level.normalized_alpha_level %></td> -->
+        <!--     </tr> -->
+        <!--     <% }); %> -->
+        <!--     </tbody> -->
+        <!-- </table> -->
+    </script>
+
+</head>
+<body>
+
+<div class="container">
+      <div class="header">
+        <ul class="nav nav-tabs nav-pills pull-right">
+          <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+          <li><a href="#api" data-toggle="tab">API</a></li>
+          <li><a href="#code" data-toggle="tab">Source</a></li>
+        </ul>
+        <h3 class="text-muted">@title</h3>
+      </div>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="jumbotron tab-pane active" id="home">
+          <h1>AlphaTrainer</h1>
+          <p class="lead">- an Android based neurofeedback system using low-cost consumer Brain-Computer Interface</p>
+          <p><a class="btn btn-lg btn-success" href="https://github.com/AlphaTrainer/AlphaTrainerAndroid/raw/finalhandin/AlphaTrainerApp-debug.apk">Download Android app (.apk)</a></p>
+        </div>
+
+
+
+        <!-- API pane start -->
+        <div class="jumbotron tab-pane" id="api">
+          <h2>API - Read</h2>
+          <pre><code>GET https://data-api.mongolab.com/v2/apis/dk5jpmcf2g1bg/collections/trainings/documents</code></pre>
+
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Short Name</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>query</td>
+<td>q</td>
+<td>object</td>
+<td><code>{}</code></td>
+<td>restrict results by the specified JSON query</td>
+</tr>
+<tr>
+<td>fields</td>
+<td>f</td>
+<td>object</td>
+<td><code>{}</code></td>
+<td>specify the set of fields to include or exclude in each document (1 - include; 0 - exclude)</td>
+</tr>
+<tr>
+<td>sortOrder</td>
+<td>s</td>
+<td>object</td>
+<td><code>{}</code></td>
+<td>specify the order in which to sort each specified field (1- ascending; -1 - descending)</td>
+</tr>
+<tr>
+<td>findOne</td>
+<td>fo</td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>return a single document from the result set (same as findOne() using the mongo shell)</td>
+</tr>
+<tr>
+<td>count</td>
+<td>c</td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>return the result count for this query</td>
+</tr>
+<tr>
+<td>skip</td>
+<td>sk</td>
+<td>int</td>
+<td><code>0</code></td>
+<td>specify the number of results to skip in the result set; useful for paging</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>l</td>
+<td>int</td>
+<td><code>100</code></td>
+<td>specify the limit for the number of results</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Example</h3>
+<small>
+Query all feedback trainings and ignore the <b>alpha_levels</b>:
+</small>
+<pre>
+<code>GET https://data-api.mongolab.com/v2/apis/dk5jpmcf2g1bg/collections/trainings/documents?fields=%7B%22alpha_levels%22%3A0%7D&query=%7B%22type%22%3A%22Feedback%22%7D</code>
+</pre>
+<small>
+Last part not url encoded::
+</small>
+<pre>
+<code>/documents?q={"type":"Feedback"}&fields={"alpha_levels":0}</code>
+</pre>
+
+API based upon the MongoLab v. 2 beta API.
+
+        </div>
+        <!-- API pane end -->
+
+        <div class="jumbotron tab-pane" id="code">
+          <h2>Source</h2>
+          <ul>
+            <li>AlphaTrainer Android App: <a href="https://github.com/AlphaTrainer/AlphaTrainerAndroid">https://github.com/AlphaTrainer/AlphaTrainerAndroid</a></li>
+            <li>OpenCV based brain processing library: <a href="https://github.com/AlphaTrainer/opencvbrain">https://github.com/AlphaTrainer/opencvbrain</a></li>
+            <li>AlphaTrainerService Client: <a href="https://github.com/AlphaTrainer/AlphaTrainerService">https://github.com/AlphaTrainer/AlphaTrainerService</a></li>
+            <li>Alpha BCI experiment:  <a href="https://github.com/AlphaTrainer/alpha_bci_experiment">https://github.com/AlphaTrainer/alpha_bci_experiment</a></li>
+          </ul>
+        </div>
+      </div><!-- end of tab panes -->
+
+      <!-- data is loaded here -->
+      <div class="row">
+          <!-- NIECETOHAVE: loder... -->
+          <!-- <div class="blink_me"> -->
+          <!--   ... loading ... -->
+          <!-- </div> -->
+      </div>
+
+    </div>
+</body>
+</html>
